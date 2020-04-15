@@ -43,17 +43,17 @@ public class MaterialDemo : SceneObjectScript
     
     [DisplayName("Absorbtion Command")]
     [Tooltip("Command to change Absorbtion of mesh")]
-    [DefaultValue("change_absorbtion")]
-    public readonly string AbsorbtionCommand;
+    [DefaultValue("change_absorption")]
+    public readonly string AbsorptionCommand;
     
-    [DisplayName("Absorbtion Value")]
-    [Tooltip("Value of Absorbtion - untested")]
+    [DisplayName("Absorption Value")]
+    [Tooltip("Value of Absorption - untested")]
     [DefaultValue(1.0f)]
-    public readonly float Absorbtion;
+    public readonly float Absorption;
     			
     [DisplayName("Brightness Command")]
     [Tooltip("Command to change Brightness of mesh")]
-    [DefaultValue("change_absorbtion")]
+    [DefaultValue("change_absobrightnessrption")]
     public readonly string BrightnessCommand;
     
     [DisplayName("Brightness Value")]
@@ -69,16 +69,17 @@ public class MaterialDemo : SceneObjectScript
     [DisplayName("Color")]
     [Tooltip("Color to change tint of mesh. example: (0.35,0,0.88,1)")]
     [DefaultValue("(0.35,0,0.88,1)")]
-    public readonly Sansar.color tint
+    public readonly string tint;
     
     [DisplayName("Emissive Command")]
     [Tooltip("Command to change emissive intensity of mesh")]
     [DefaultValue("emissive_intensity")]
     public readonly string EmissiveCommand;
 
+    [DisplayName("Emissive Intensity")]
     [Tooltip("Emissive Intensity to change mesh")]
     [DefaultValue(3.0f)]
-    [DisplayName("Emissive Intensity")]
+
     public readonly float EmissiveIntensity;
 
     [DisplayName("Flipbook Command")]
@@ -153,18 +154,18 @@ public class MaterialDemo : SceneObjectScript
                 Log.Write(LogLevel.Warning, LogTag, $"MeshComponent {Mesh.Name} is not scriptable");
             }
             
-            SubscribeToScriptEvent(AbsorbtionCommand, (ScriptEventData data) =>
+            SubscribeToScriptEvent(AbsorptionCommand, (ScriptEventData data) =>
             {
                 ISimpleData idata = data.Data.AsInterface<ISimpleData>();
 
                 RenderMaterial m = Mesh.GetRenderMaterial(materials[0].Name);
                 MaterialProperties p = m.GetProperties();
                 
-                p.Absorbtion = Absorbtion;
+                p.Absorption = Absorption;
                 m.SetProperties(p, Duration, InterpolationModeParse(Interpolation));
             });
             
-            SubscribeToScriptEvent(Bright essCommand, (ScriptEventData data) =>
+            SubscribeToScriptEvent(BrightnessCommand, (ScriptEventData data) =>
             {
                 ISimpleData idata = data.Data.AsInterface<ISimpleData>();
 
@@ -182,7 +183,7 @@ public class MaterialDemo : SceneObjectScript
                 RenderMaterial m = Mesh.GetRenderMaterial(materials[0].Name);
                 MaterialProperties p = m.GetProperties();
 
-                if (!Sansar.Color.TryParse(Color, out p.Tint))
+                if (!Sansar.Color.TryParse(tint, out p.Tint))
                 {
                     Log.Write(LogLevel.Error, LogTag, "TintCommand: Failed to parse as Sansar.Color");
                     return;
@@ -208,7 +209,7 @@ public class MaterialDemo : SceneObjectScript
                 RenderMaterial m = Mesh.GetRenderMaterial(materials[0].Name);
                 MaterialProperties p = m.GetProperties();
                 
-                p.Frames = Frames;
+                p.FlipbookFrame = Frames;
                 m.SetProperties(p, Duration, InterpolationModeParse(Interpolation));
             });
 
